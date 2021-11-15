@@ -10,15 +10,43 @@ library(dplyr)
 library(xtable)
 
 # Read in data
-cces <- foreign::read.spss("data/UCM_CES2020_Unweighted_Data.sav", to.data.frame = T)
+cces <- foreign::read.spss("data/cces/UCM_CES2020_Unweighted_Data.sav", to.data.frame = T)
 
-cces %>% 
+error <- cces %>% 
   group_by(pid3lean, Error_split) %>%
   filter(pid3lean != "            ") %>%
   summarize(avg = mean(as.numeric(AGTErrors), na.rm = T), med = median(as.numeric(AGTErrors), na.rm = T), n = n())
 
-cces %>% 
+parking <- cces %>% 
   group_by(pid3lean, UCMParking_split) %>%
   filter(!is.na(UCMParking_split)) %>%
   filter(pid3lean != "            ") %>%
   summarize(avg = mean(as.numeric(UCMParking), na.rm = T), med = median(as.numeric(UCMParking), na.rm = T), n = n())
+
+
+print(
+    xtable(error,
+         digits = 1,
+         caption = "Average Number of Errors", 
+         label = "tab:error_sum"), 
+      include.rownames = FALSE,
+      include.colnames = TRUE, 
+      floating = TRUE,
+      type = "latex", 
+      caption.placement = "bottom",
+      table.placement = "!htb",
+      file = "tabs/error_sum.tex")
+
+
+print(
+    xtable(parking,
+         digits = 1,
+         caption = "Average Number of Errors", 
+         label = "tab:error_sum"), 
+      include.rownames = FALSE,
+      include.colnames = TRUE, 
+      floating = TRUE,
+      type = "latex", 
+      caption.placement = "bottom",
+      table.placement = "!htb",
+      file = "tabs/parking_sum.tex")
