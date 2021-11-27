@@ -109,7 +109,7 @@ setwd(githubdir)
 
 \citep{chabris2010invisible}
 
-To assess how partisans `see', we surveyed a nationally representative sample of people selected by YouGov \citep{rivers2007} as part of a Cooperative Congressional Election Study (CCES) module. We used a small vignette to check whether partisans prefer a Pareto optimal policy or not. In particular, we showed Democrats Figure~\ref{fig:sfig1} and Republicans \ref{fig:sfig2} and asked them: "Which plan do you support? --- Smith Plan or Williams Plan." We randomized the order of responses. We expect most people to choose the Pareto optimal policy---the Smith Plan.
+To assess how partisans `see', we surveyed a nationally representative sample of people selected by YouGov \citep{rivers2007} as part of a Cooperative Congressional Election Study (CCES) module. We used a small vignette to check whether partisans prefer a Pareto optimal policy or not. In particular, we showed Democrats Figure~\ref{fig:mistakes_dem} and Republicans \ref{fig:mistakes_rep} and asked them: "Which plan do you support? --- Smith Plan or Williams Plan." We randomized the order of responses. We expect most people to choose the Pareto optimal policy---the Smith Plan.
 
 \section{Results}
 
@@ -117,8 +117,31 @@ As Table~\ref{tab:tab1} shows, two-third of the Democrats and three-fourths of t
 
 \include{tabs/error_sum.tex}
 
+\include{tabs/parking_sum.tex}
+
 \clearpage
 \bibliographystyle{apsr}
-\bibliography{pareto}
+\bibliography{vision}
+
+\begin{figure}[!htbp]
+\centering
+\caption{Share of Black Criminals in Law \& Order and the Real World}
+\includegraphics[scale=.9]{data/treats/Mistakes_Dem.png}
+\label{fig:mistakes_dem}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\caption{Mistakes}
+\includegraphics[scale=.9]{data/treats/Mistakes_Rep.png}
+\label{fig:mistakes_rep}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\caption{Parking Lot}
+\includegraphics[scale=.9]{data/treats/Parking_Lot_Dems.png}
+\label{fig:mistakes_rep}
+\end{figure}
 
 \end{document}
