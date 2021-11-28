@@ -25,7 +25,7 @@ error <- cces %>%
             std_error = se(as.numeric(AGTErrors)))
 
 # hidden republicans among ind. to interpret
-  
+
 parking <- cces %>% 
   group_by(pid3lean, UCMParking_split) %>%
   filter(!is.na(UCMParking_split)) %>%
@@ -34,6 +34,34 @@ parking <- cces %>%
             med = median(as.numeric(UCMParking), na.rm = T),
             n = n(),
             std_error = se(as.numeric(UCMParking)))
+
+cust_theme <- theme_minimal() +
+  theme(panel.grid.major   = element_line(color="#e7e7e7",  linetype = "dotted"),
+    panel.grid.minor =  element_blank(),
+    legend.position  = "none",
+    axis.title   = element_text(size = 10, color = "#555555"),
+    axis.text    = element_text(size = 8, color = "#555555"),
+    axis.ticks.y = element_blank(),
+    axis.title.x = element_text(vjust = -1),
+    axis.title.y = element_text(vjust = 1),
+    axis.ticks.x = element_line(color = "#e7e7e7",  linetype = "dotted", size = .2),
+    plot.margin = unit(c(0, 1, .5, .5), "cm"))
+
+ggplot(parking, aes(x=pid3lean, y=avg, fill=UCMParking_split)) + 
+    geom_bar(position=position_dodge(), stat="identity") +
+    geom_errorbar(aes(ymin=avg-std_error, ymax=avg+std_error), width=.2, position=position_dodge(.9)) + 
+    cust_theme
+ggsave(file = "figs/parking.pdf")
+
+
+# Use 95% confidence intervals instead of SEM
+ggplot(tgc2, aes(x=dose, y=len, fill=supp)) + 
+    geom_bar(position=position_dodge(), stat="identity") +
+    geom_errorbar(aes(ymin=len-ci, ymax=len+ci),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) + 
+    cust_theme
+
 
 print(
     xtable(error,
