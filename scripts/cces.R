@@ -53,14 +53,12 @@ ggplot(parking, aes(x=pid3lean, y=avg, fill=UCMParking_split)) +
     cust_theme
 ggsave(file = "figs/parking.pdf")
 
-
-# Use 95% confidence intervals instead of SEM
-ggplot(tgc2, aes(x=dose, y=len, fill=supp)) + 
+ggplot(error, aes(x=pid3lean, y=avg, fill=Error_split)) + 
     geom_bar(position=position_dodge(), stat="identity") +
-    geom_errorbar(aes(ymin=len-ci, ymax=len+ci),
-                  width=.2,                    # Width of the error bars
-                  position=position_dodge(.9)) + 
+    geom_errorbar(aes(ymin=avg-std_error, ymax=avg+std_error), width=.2, position=position_dodge(.9)) + 
     cust_theme
+ggsave(file = "figs/error.pdf")
+
 
 
 print(
@@ -80,7 +78,7 @@ print(
     xtable(parking,
          digits = 1,
          caption = "Average Number of Errors", 
-         label = "tab:error_sum"), 
+         label = "tab:parking_sum"), 
       include.rownames = FALSE,
       include.colnames = TRUE, 
       floating = TRUE,
