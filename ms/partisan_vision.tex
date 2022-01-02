@@ -142,7 +142,16 @@ As Table~\ref{tab:tab1} shows, Democrats find 9.7 mistakes when they think the t
 \clearpage
 \bibliographystyle{apsr}
 \bibliography{vision}
+\clearpage
 
+
+\appendix
+\renewcommand{\thesection}{SI \arabic{section}}
+\setcounter{table}{0}\renewcommand\thetable{\thesection.\arabic{table}}  
+\setcounter{figure}{0}\renewcommand\thefigure{\thesection.\arabic{figure}}
+\counterwithin{figure}{section}
+
+\section{Figures}
 \begin{figure}[!htbp]
 \centering
 \caption{Share of Black Criminals in Law \& Order and the Real World}
@@ -164,6 +173,7 @@ As Table~\ref{tab:tab1} shows, Democrats find 9.7 mistakes when they think the t
 \label{fig:mistakes_rep}
 \end{figure}
 
+\clearpage
 \section{Tables}
 \input{../tabs/error_sum.tex}
 \input{../tabs/parking_sum.tex}

@@ -70,7 +70,7 @@ print(
       include.colnames = TRUE, 
       floating = TRUE,
       type = "latex", 
-      caption.placement = "bottom",
+      caption.placement = "top",
       table.placement = "!htb",
       file = "tabs/error_sum.tex")
 
@@ -83,7 +83,7 @@ print(
       include.colnames = TRUE, 
       floating = TRUE,
       type = "latex", 
-      caption.placement = "bottom",
+      caption.placement = "top",
       table.placement = "!htb",
       file = "tabs/parking_sum.tex")
 
