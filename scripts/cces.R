@@ -9,6 +9,7 @@ library(car)
 library(dplyr)
 library(xtable)
 library(ggplot2)
+library(ggthemes)
 
 # se
 se <- function(x) sd(x, na.rm = T)/sqrt(length(x[!is.na(x)]))
@@ -56,7 +57,8 @@ ggplot(parking, aes(x=pid3lean, y=avg)) +
   ylab("Average Number of Writing Errors") + 
   cust_theme + 
   theme(legend.position="bottom") +
-  scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) 
+  scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))  + 
+  theme_tufte()
 ggsave(file = "figs/parking.pdf")
 ggsave(file = "figs/parking.png")
 
@@ -70,7 +72,8 @@ ggplot(error, aes(x=pid3lean, y=avg)) +
     ylab("Average Number of Writing Errors") + 
     cust_theme + 
     theme(legend.position="bottom") +
-    scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) 
+    scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) + 
+    theme_tufte()
 ggsave(file = "figs/error.pdf")
 ggsave(file = "figs/error.png")
 
