@@ -58,6 +58,7 @@ ggplot(parking, aes(x=pid3lean, y=avg)) +
   theme(legend.position="bottom") +
   scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) 
 ggsave(file = "figs/parking.pdf")
+ggsave(file = "figs/parking.png")
 
 ggplot(error, aes(x=pid3lean, y=avg)) + 
     geom_errorbar(
@@ -71,12 +72,13 @@ ggplot(error, aes(x=pid3lean, y=avg)) +
     theme(legend.position="bottom") +
     scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) 
 ggsave(file = "figs/error.pdf")
+ggsave(file = "figs/error.png")
 
 # Tables
 print(
     xtable(error,
          digits = 1,
-         caption = "Average Number of Errors", 
+         caption = "Average Number of Writing Errors", 
          label = "tab:error_sum"), 
       include.rownames = FALSE,
       include.colnames = TRUE, 
@@ -89,7 +91,7 @@ print(
 print(
     xtable(parking,
          digits = 1,
-         caption = "Average Number of Errors", 
+         caption = "Average Number of Parking Errors", 
          label = "tab:parking_sum"), 
       include.rownames = FALSE,
       include.colnames = TRUE, 
@@ -98,5 +100,3 @@ print(
       caption.placement = "top",
       table.placement = "!htb",
       file = "tabs/parking_sum.tex")
-
-
