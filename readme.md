@@ -14,9 +14,9 @@ Do partisans `see' different things? We test the hypothesis using simple evaluat
 
 |pid_dem_l   | p_25| p_50| p_75|   n| std_error|
 |:-----------|----:|----:|----:|---:|---------:|
-|democrat    |    1|    1|    5| 490|         2|
-|independent |    1|    1|    5| 879|         2|
-|republican  |    0|    0|    3| 134|         2|
+|democrat    |    1|    1|    5| 919|         3|
+|independent |    1|    1|    5| 111|         3|
+|republican  |    2|    2|    6| 879|         4|
 
 ### Authors
 
