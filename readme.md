@@ -1,4 +1,4 @@
-## Partisan Vision? Impact of Partisanship on Visual Evaluative Tasks
+## Partisan Vision? Partisan Bias in Simple Visual Evaluations
 
 Do partisans `see' different things? We test the hypothesis using simple evaluation tasks. In two survey experiments, we manipulate who has [written a piece of text](data/treats/Mistakes_Dem.png), and [parked the cars](data/treats/Parking_Lot_Dems.png) and ask respondents to estimate the number of errors. In a survey, we ask respondents to count [how many people are wearing a mask at a Trump rally](data/treats/trump_rally.mp4). We find that partisan bias is generally small.
 
