@@ -6,7 +6,7 @@ Do partisans see things differently? We test the hypothesis with two different e
 
 ### Results
 
-![Writing Errors](figs/errors.png)
+![Writing Errors](figs/error.png)
 
 ![Parking Errors](figs/parking.png)
 
