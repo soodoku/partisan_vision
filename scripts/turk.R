@@ -8,6 +8,7 @@ library(tidyverse)
 library(knitr)
 library(readr)
 library(magrittr)
+library(boot)
 
 ## Load data
 turk <- read_csv("data/turk/merged_survey_ip_06_29_2020_final.csv")
@@ -17,7 +18,8 @@ turk <- read_csv("data/turk/merged_survey_ip_06_29_2020_final.csv")
 # table(turk$pid_3...Other..please.specify....Text)
 
 turk %<>% mutate(pid_dem_l = case_when(pid_dem == "1" ~ "democrat",
-                                       pid_dem == "2" ~ "republican")) 
+                                       pid_dem == "2" ~ "republican",
+                                       is.na(pid_dem) ~ "independent")) 
 
 turk %>% 
   group_by(pid_dem_l) %>% 
@@ -25,18 +27,31 @@ turk %>%
             p_50 = quantile(trump_masks, probs = .25, na.rm = T), 
             p_75 = quantile(trump_masks, probs = .75, na.rm = T), 
             n = n())
-
 
 # See if filtering on sincere respondents changes anything --- NO
 
 # Drop people who didn't finish
 turk <- turk %>% filter(!is.na(sincerity))
 
-turk %>% 
+medianFunc <- function(x,i){median(x[i])}
+
+masks <- turk %>% 
   group_by(pid_dem_l) %>% 
   summarize(p_25 = quantile(trump_masks, probs = .25, na.rm = T), 
             p_50 = quantile(trump_masks, probs = .25, na.rm = T), 
             p_75 = quantile(trump_masks, probs = .75, na.rm = T), 
-            n = n())
+            n = n(),
+            std_error = medianFunc(as.numeric(trump_masks)))
 
-
+print(
+  xtable(masks,
+         digits = 1,
+         caption = "Number of People Wearing Masks", 
+         label = "tab:parking_sum"), 
+  include.rownames = FALSE,
+  include.colnames = TRUE, 
+  floating = TRUE,
+  type = "latex", 
+  caption.placement = "top",
+  table.placement = "!htb",
+  file = "tabs/masks_sum.tex")

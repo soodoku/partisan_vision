@@ -13,3 +13,7 @@ build
 dev/
 *.aux
 .Rproj.user
+.RData
+.Rhistory
+ms/partisan_vision.bbl
+ms/partisan_vision.synctex.gz

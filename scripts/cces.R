@@ -16,6 +16,7 @@ se <- function(x) sd(x, na.rm = T)/sqrt(length(x[!is.na(x)]))
 # Read in data
 cces <- foreign::read.spss("data/cces/UCM_CES2020_Unweighted_Data.sav", to.data.frame = T)
 
+# Analysis
 error <- cces %>% 
   group_by(pid3lean, Error_split) %>%
   filter(pid3lean != "            ") %>%
@@ -23,8 +24,6 @@ error <- cces %>%
             med = median(as.numeric(AGTErrors), na.rm = T), 
             n = n(),
             std_error = se(as.numeric(AGTErrors)))
-
-# hidden republicans among ind. to interpret
 
 parking <- cces %>% 
   group_by(pid3lean, UCMParking_split) %>%
@@ -35,10 +34,10 @@ parking <- cces %>%
             n = n(),
             std_error = se(as.numeric(UCMParking)))
 
+# Plot
 cust_theme <- theme_minimal() +
-  theme(panel.grid.major   = element_line(color="#e7e7e7",  linetype = "dotted"),
+  theme(panel.grid.major  = element_line(color="#e7e7e7",  linetype = "dotted"),
     panel.grid.minor =  element_blank(),
-    legend.position  = "none",
     axis.title   = element_text(size = 10, color = "#555555"),
     axis.text    = element_text(size = 8, color = "#555555"),
     axis.ticks.y = element_blank(),
@@ -47,20 +46,33 @@ cust_theme <- theme_minimal() +
     axis.ticks.x = element_line(color = "#e7e7e7",  linetype = "dotted", size = .2),
     plot.margin = unit(c(0, 1, .5, .5), "cm"))
 
-ggplot(parking, aes(x=pid3lean, y=avg, fill=UCMParking_split)) + 
-    geom_bar(position=position_dodge(), stat="identity") +
-    geom_errorbar(aes(ymin=avg-std_error, ymax=avg+std_error), width=.2, position=position_dodge(.9)) + 
-    cust_theme
+ggplot(parking, aes(x=pid3lean, y=avg)) + 
+  geom_errorbar(
+    aes(ymin=avg-std_error, ymax=avg+std_error, color=UCMParking_split),
+    position = position_dodge(0.3), width = 0.1
+  ) + 
+  geom_point(aes(color = UCMParking_split), position = position_dodge(0.3)) +
+  xlab(NULL) +
+  ylab("Average Number of Writing Errors") + 
+  cust_theme + 
+  theme(legend.position="bottom") +
+  scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) 
 ggsave(file = "figs/parking.pdf")
 
-ggplot(error, aes(x=pid3lean, y=avg, fill=Error_split)) + 
-    geom_bar(position=position_dodge(), stat="identity") +
-    geom_errorbar(aes(ymin=avg-std_error, ymax=avg+std_error), width=.2, position=position_dodge(.9)) + 
-    cust_theme
+ggplot(error, aes(x=pid3lean, y=avg)) + 
+    geom_errorbar(
+      aes(ymin=avg-std_error, ymax=avg+std_error, color=Error_split),
+      position = position_dodge(0.3), width = 0.1
+      ) + 
+    geom_point(aes(color = Error_split), position = position_dodge(0.3)) +
+    xlab(NULL) +
+    ylab("Average Number of Writing Errors") + 
+    cust_theme + 
+    theme(legend.position="bottom") +
+    scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) 
 ggsave(file = "figs/error.pdf")
 
-
-
+# Tables
 print(
     xtable(error,
          digits = 1,
