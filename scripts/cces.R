@@ -53,7 +53,7 @@ ggplot(parking, aes(x=pid3lean, y=avg)) +
   ) + 
   geom_point(aes(color = UCMParking_split), position = position_dodge(0.3)) +
   xlab(NULL) +
-  ylab("Average Number of Writing Errors") + 
+  ylab("Average Number of Parking Errors") + 
   cust_theme + 
   theme(legend.position="bottom") +
   scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))

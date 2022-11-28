@@ -1,6 +1,6 @@
 ## Partisan Vision? Impact of Partisanship on Visual Evaluative Tasks
 
-Do partisans see things differently? We test the hypothesis with two different experiments and a survey. In the experiments, we manipulate who has [written a piece of text](data/treats/Mistakes_Dem.png), or [parked the cars](data/treats/Parking_Lot_Dems.png) and ask respondents to estimate the number of errors. And on the survey question, we ask respondents to count [how many people are wearing a mask at a Trump rally](data/treats/trump_rally.mp4). We find that the differences are consistently small.
+Do partisans `see' different things? We test the hypothesis using simple evaluation tasks. In two survey experiments, we manipulate who has [written a piece of text](data/treats/Mistakes_Dem.png), and [parked the cars](data/treats/Parking_Lot_Dems.png) and ask respondents to estimate the number of errors. In a survey, we ask respondents to count [how many people are wearing a mask at a Trump rally](data/treats/trump_rally.mp4). We find that partisan bias is generally small.
 
 <img src="data/treats/Parking_Lot_Dems.png" width=50%>
 
@@ -10,6 +10,14 @@ Do partisans see things differently? We test the hypothesis with two different e
 
 <img src="figs/parking.png" width=50%>
 
+## Number of people wearing masks by party 
+
+|pid_dem_l   | p_25| p_50| p_75|   n| std_error|
+|:-----------|----:|----:|----:|---:|---------:|
+|democrat    |    1|    1|    5| 490|         2|
+|independent |    1|    1|    5| 879|         2|
+|republican  |    0|    0|    3| 134|         2|
+
 ### Authors
 
-Gaurav Sood and Alex Theodoridis
+Carrier Roush, Gaurav Sood, and Alex Theodoridis
