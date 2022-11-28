@@ -20,4 +20,4 @@ Do partisans `see' different things? We test the hypothesis using simple evaluat
 
 ### Authors
 
-Carrier Roush, Gaurav Sood, and Alex Theodoridis
+Carrie Roush, Gaurav Sood, and Alex Theodoridis
