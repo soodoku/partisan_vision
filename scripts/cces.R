@@ -9,7 +9,6 @@ library(car)
 library(dplyr)
 library(xtable)
 library(ggplot2)
-library(ggthemes)
 
 # se
 se <- function(x) sd(x, na.rm = T)/sqrt(length(x[!is.na(x)]))
@@ -36,7 +35,7 @@ parking <- cces %>%
             std_error = se(as.numeric(UCMParking)))
 
 # Plot
-cust_theme <- theme_minimal() +
+cust_theme <- theme_bw() +
   theme(panel.grid.major  = element_line(color="#e7e7e7",  linetype = "dotted"),
     panel.grid.minor =  element_blank(),
     axis.title   = element_text(size = 10, color = "#555555"),
@@ -57,8 +56,7 @@ ggplot(parking, aes(x=pid3lean, y=avg)) +
   ylab("Average Number of Writing Errors") + 
   cust_theme + 
   theme(legend.position="bottom") +
-  scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))  + 
-  theme_tufte()
+  scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))
 ggsave(file = "figs/parking.pdf")
 ggsave(file = "figs/parking.png")
 
@@ -72,8 +70,7 @@ ggplot(error, aes(x=pid3lean, y=avg)) +
     ylab("Average Number of Writing Errors") + 
     cust_theme + 
     theme(legend.position="bottom") +
-    scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777")) + 
-    theme_tufte()
+    scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))
 ggsave(file = "figs/error.pdf")
 ggsave(file = "figs/error.png")
 
