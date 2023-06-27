@@ -48,11 +48,65 @@ fin_dat <- fin_dat %>%
   ))
 
 ### Analysis
+se <- function(x) sd(x, na.rm = T)/sqrt(length(x[!is.na(x)]))
 
 fin_dat %>% 
   group_by(edit_cong) %>%
-  summarize(mean_mis = mean(mistakes), med_mis = median(mistakes))
+  summarize(mean_mis = mean(mistakes), 
+            med_mis = median(mistakes), 
+            n = n(),
+            std_error = se(as.numeric(mistakes)))
 
-summary(lm(mistakes ~ edit_cong, data = fin_dat[fin_dat$pid3 != "ind", ]))
-summary(lm(mistakes_r ~ edit_cong, data = fin_dat[fin_dat$pid3 != "ind", ]))
+error <- fin_dat %>% 
+  group_by(pid3, edit_cond) %>%
+  summarize(mean_mis = mean(mistakes), 
+            med_mis = median(mistakes), 
+            n = n(),
+            std_error = se(as.numeric(mistakes)))
+
+# Table
+print(
+  xtable(error,
+         digits = 1,
+         caption = "Average Number of Writing Errors (Lucid)", 
+         label = "tab:error_sum_lucid"), 
+  include.rownames = FALSE,
+  include.colnames = TRUE, 
+  floating = TRUE,
+  type = "latex", 
+  caption.placement = "top",
+  table.placement = "!htb",
+  file = "tabs/text_sum_lucid.tex")
+
+# Regression
+summary(lm(mistakes ~ edit_cong, data = fin_dat[fin_dat$pid3 == "dem", ]))
+summary(lm(mistakes_r ~ edit_cong, data = fin_dat[fin_dat$pid3 == "dem", ]))
+summary(lm(mistakes ~ edit_cong, data = fin_dat[fin_dat$pid3 == "rep", ]))
+summary(lm(mistakes_r ~ edit_cong, data = fin_dat[fin_dat$pid3 == "rep", ]))
+
+# Plot
+cust_theme <- theme_bw() +
+  theme(panel.grid.major  = element_line(color="#e7e7e7",  linetype = "dotted"),
+        panel.grid.minor =  element_blank(),
+        axis.title   = element_text(size = 10, color = "#555555"),
+        axis.text    = element_text(size = 8, color = "#555555"),
+        axis.ticks.y = element_blank(),
+        axis.title.x = element_text(vjust = -1),
+        axis.title.y = element_text(vjust = 1),
+        axis.ticks.x = element_line(color = "#e7e7e7",  linetype = "dotted", size = .2),
+        plot.margin = unit(c(0, 1, .5, .5), "cm"))
+
+ggplot(error, aes(x=pid3, y=mean_mis)) + 
+  geom_errorbar(
+    aes(ymin=mean_mis-2*std_error, ymax=mean_mis+2*std_error, color=edit_cond),
+    position = position_dodge(0.3), width = 0.1
+  ) + 
+  geom_point(aes(color = edit_cond), position = position_dodge(0.3)) +
+  xlab(NULL) +
+  ylab("Average Number of Writing Errors (Lucid)") + 
+  cust_theme + 
+  theme(legend.position="bottom") +
+  scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))
+ggsave(file = "figs/text_lucid.pdf")
+ggsave(file = "figs/text_lucid.png")
 

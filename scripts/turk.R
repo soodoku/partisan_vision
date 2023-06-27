@@ -1,8 +1,5 @@
 # Partisan Vision
 
-# set dir.
-setwd(githubdir)
-setwd("partisan_vision/")
 # Load libs
 library(tidyverse)
 library(knitr)
@@ -42,27 +39,35 @@ masks <- turk %>%
   group_by(pid_dem_l) %>% 
   filter(!is.na(pid_dem_l)) %>%
   summarize(p_25 = quantile(trump_masks, probs = .25, na.rm = T), 
-            p_50 = quantile(trump_masks, probs = .25, na.rm = T), 
+            p_50 = quantile(trump_masks, probs = .50, na.rm = T), 
             p_75 = quantile(trump_masks, probs = .75, na.rm = T), 
             n = n(), 
-            std_error = medianFunc(as.numeric(trump_masks)))
+            std_error = sd(as.numeric(trump_masks))/sqrt(n()))
 
 # See if filtering on sincere respondents changes anything --- NO
 
+summary(turk$trump_masks)
+quantile(turk$trump_masks, probs = seq(.1, .9, by = .1), na.rm = T)
+
 # Drop people who didn't finish
 turk_sincere <- turk %>% 
-  filter(!is.na(sincerity) & sincerity > 2)
+  filter(!is.na(sincerity) & sincerity > 2) %>%
+  mutate(trump_masks_r = case_when(
+    trump_masks >= 15 ~ 15,
+    TRUE ~ trump_masks
+  ))
 
 masks_sincere <- turk_sincere %>% 
   group_by(pid_dem_l) %>% 
-  summarize(p_25 = quantile(trump_masks, probs = .25, na.rm = T), 
-            p_50 = quantile(trump_masks, probs = .25, na.rm = T), 
-            p_75 = quantile(trump_masks, probs = .75, na.rm = T), 
+  summarize(p_25 = quantile(trump_masks_r, probs = .25, na.rm = T), 
+            p_50 = quantile(trump_masks_r, probs = .50, na.rm = T), 
+            p_75 = quantile(trump_masks_r, probs = .75, na.rm = T), 
             n = n(),
-            std_error = medianFunc(as.numeric(trump_masks)))
+            mean = mean(trump_masks_r, na.rm = T),
+            std_error = round(sd(as.numeric(trump_masks_r))/sqrt(n()), 1))
 
 print(
-  xtable(masks,
+  xtable(masks_sincere,
          digits = 1,
          caption = "Number of People Wearing Masks", 
          label = "tab:trump_sum"), 
@@ -74,4 +79,4 @@ print(
   table.placement = "!htb",
   file = "tabs/masks_sum.tex")
 
-kable(masks)
+kable(masks_sincere)

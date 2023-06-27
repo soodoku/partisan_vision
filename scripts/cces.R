@@ -1,8 +1,5 @@
 # Partisan Vision
 
-# set dir.
-setwd(githubdir)
-setwd("partisan_vision/")
 # Load libs
 library(tidyverse)
 library(car)
@@ -33,6 +30,10 @@ parking <- cces %>%
             med = median(as.numeric(UCMParking), na.rm = T),
             n = n(),
             std_error = se(as.numeric(UCMParking)))
+# Regressions
+
+with(cces[cces$pid3lean == "Democrat    ", ], summary(lm(as.numeric(AGTErrors) ~ Error_split)))
+with(cces[cces$pid3lean == "Democrat    ", ], summary(lm(as.numeric(UCMParking) ~ UCMParking_split)))
 
 # Plot
 cust_theme <- theme_bw() +
@@ -57,8 +58,8 @@ ggplot(parking, aes(x=pid3lean, y=avg)) +
   cust_theme + 
   theme(legend.position="bottom") +
   scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))
-ggsave(file = "figs/parking.pdf")
-ggsave(file = "figs/parking.png")
+ggsave(file = "figs/parking_cces.pdf")
+ggsave(file = "figs/parking_cces.png")
 
 ggplot(error, aes(x=pid3lean, y=avg)) + 
     geom_errorbar(
@@ -71,32 +72,32 @@ ggplot(error, aes(x=pid3lean, y=avg)) +
     cust_theme + 
     theme(legend.position="bottom") +
     scale_color_manual("Treatment", values = c("#33AAEE", "#EE7777"))
-ggsave(file = "figs/error.pdf")
-ggsave(file = "figs/error.png")
+ggsave(file = "figs/text_cces.pdf")
+ggsave(file = "figs/text_cces.png")
 
 # Tables
 print(
     xtable(error,
          digits = 1,
-         caption = "Average Number of Writing Errors", 
-         label = "tab:error_sum"), 
+         caption = "Average Number of Writing Errors (CCES)", 
+         label = "tab:error_sum_cces"), 
       include.rownames = FALSE,
       include.colnames = TRUE, 
       floating = TRUE,
       type = "latex", 
       caption.placement = "top",
       table.placement = "!htb",
-      file = "tabs/error_sum.tex")
+      file = "tabs/text_sum_cces.tex")
 
 print(
     xtable(parking,
          digits = 1,
          caption = "Average Number of Parking Errors", 
-         label = "tab:parking_sum"), 
+         label = "tab:parking_sum_cces"), 
       include.rownames = FALSE,
       include.colnames = TRUE, 
       floating = TRUE,
       type = "latex", 
       caption.placement = "top",
       table.placement = "!htb",
-      file = "tabs/parking_sum.tex")
+      file = "tabs/parking_sum_cces.tex")
