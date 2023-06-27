@@ -12,7 +12,7 @@ Lastly, on a survey on Amazon Mturk, we asked respondents to count [how many peo
 
 <img src="data/treats/Parking_Lot_Dems.png" width=50%>
 
-<img src="data/treats/Mistakes_Dem.png" width = 50%">
+<img src="data/treats/Mistakes_Dem.png" width = 50%>
 
 [Trump Rally](data/treats/trump_rally.mp4)
 
