@@ -19,13 +19,14 @@ Lastly, on a survey on Amazon Mturk, we asked respondents to count [how many peo
 ### Results
 
 **CCES**
+
 <img src="figs/text_cces.png" width=50%>
 
 <img src="figs/parking_cces.png" width=50%>
 
 
-
 **Lucid**
+
 <img src="figs/text_lucid.png" width=50%>
 
 **MTurk**
