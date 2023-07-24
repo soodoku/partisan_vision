@@ -39,6 +39,10 @@ Number of people wearing masks by party
 |independent |    1|    2|  6.5|  15| 4.9|       1.4|
 |republican  |    2|    5|  8.0| 365| 5.9|       0.3|
 
+### OSF Pre-Reg
+
+https://osf.io/rqj8u
+
 ### Authors
 
 Carrie Roush, Gaurav Sood, and Alex Theodoridis
