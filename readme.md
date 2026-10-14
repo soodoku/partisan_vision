@@ -46,3 +46,7 @@ https://osf.io/rqj8u
 ### Authors
 
 Carrie Roush, Gaurav Sood, and Alex Theodoridis
+
+<!-- adjacent:start -->
+
+<!-- adjacent:end -->
