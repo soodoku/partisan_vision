@@ -44,3 +44,11 @@ testthat::test_that("sincerity selection retains never and rarely responses", {
     testthat::expect_false(anyDuplicated(x$id) > 0)
   })
 })
+
+testthat::test_that("Lucid party mapping agrees with provider codebook", {
+  path <- file.path("..", "..", "data", "lucid", "party_codebook.csv")
+  codebook <- read.csv(path)
+  testthat::expect_identical(lucid_party(codebook$code), codebook$party)
+  testthat::expect_true(is.na(lucid_party(NA_integer_)))
+  testthat::expect_error(lucid_party(11))
+})

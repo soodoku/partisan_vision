@@ -47,7 +47,7 @@ Distinct MTurk response IDs do not establish unique people across waves. There a
 | Row conservation / joins | No analytical joins; unique study-task-response keys; pooling checks distinct response IDs. |
 | Provenance and consistency | Generated prose, tables, and README share results; obsolete duplicate tables removed. |
 | EDA and tails | Mechanical sweeps run on both analytical datasets; extreme mask reports and Lucid influence reported. |
-| Construction | SPSS ranks and sincerity corrected; Lucid party mapping still needs source confirmation. |
+| Construction | SPSS ranks and sincerity corrected; Lucid party mapping confirmed against the provider codebook; see lucid_provenance.md. |
 | Estimands | Unmatched unweighted primary CCES, matched weighted description separately; capped and raw outcomes distinguished. |
 | Inference | Unequal-variance Welch contrasts; pointwise intervals; Holm family of six experimental contrasts. No bootstrap or generated-outcome uncertainty. |
 | Design / measurement | Randomized cue effects distinguished from nonrandom party comparisons. Reports do not identify perceptual mechanisms. |
@@ -60,7 +60,7 @@ Distinct MTurk response IDs do not establish unique people across waves. There a
 
 ## Unresolved evidence
 
-The supplied Lucid instrument omits embedded party-code definitions. The original mapping is retained explicitly rather than guessed. Assignment logs and a validated scoring key are unavailable in the repository. The two MTurk waves have unique response IDs but no verified stable person identifier. These limits prevent certifying every design assertion as independently verified.
+The supplied Lucid instrument omits embedded party-code definitions, but the provider codebook recovered through the companion know_pgap_cues project confirms the mapping. See lucid_provenance.md. Assignment logs and a validated scoring key are unavailable in the repository. The two MTurk waves have unique response IDs but no verified stable person identifier. These limits prevent certifying every design assertion as independently verified.
 
 ## Validation
 

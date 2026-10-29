@@ -39,4 +39,4 @@ make check
 
 The audit distinguishes confirmed errors from changed estimands and unavailable evidence. Source survey records contain identifying fields; generated analytical outputs exclude them.
 
-The OSF registration is dated November 2021, after CCES fieldwork in 2020; the paper treats it as a registered analysis description. Lucid party-code documentation remains unresolved.
+The OSF registration is dated November 2021, after CCES fieldwork in 2020; the paper treats it as a registered analysis description. Lucid party coding is verified against the provider codebook recovered through the companion project.

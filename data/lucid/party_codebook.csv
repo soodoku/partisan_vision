@@ -1,0 +1,11 @@
+code,label,party
+1,Strong Democrat,Democrat
+2,Not very strong Democrat,Democrat
+3,Independent Democrat,Democrat
+4,Independent - neither,Independent
+5,Independent Republican,Republican
+6,Other - leaning Democrat,Democrat
+7,Other - neither,Independent
+8,Other - leaning Republican,Republican
+9,Not very strong Republican,Republican
+10,Strong Republican,Republican

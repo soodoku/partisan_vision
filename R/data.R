@@ -29,11 +29,7 @@ read_lucid <- function() {
   stopifnot(!anyDuplicated(x$ResponseId))
   tibble::tibble(
     id = x$ResponseId, study = "Lucid", task = "Writing",
-    party = dplyr::case_when(
-      x$political_party %in% c("1", "2", "3", "6") ~ "Democrat",
-      x$political_party %in% c("5", "8", "9", "10") ~ "Republican",
-      x$political_party %in% c("4", "7") ~ "Independent"
-    ),
+    party = lucid_party(x$political_party),
     treatment = dplyr::recode(x$edit_cond, d = "Democrat", r = "Republican"),
     outcome = as.numeric(ifelse(x$edit_cond == "d", x$edit_dems, x$edit_reps)),
     weight = 1
@@ -56,5 +52,15 @@ read_turk <- function() {
       x$pid_ind == "3" ~ "Independent"
     ),
     sincerity = as.numeric(x$sincerity), outcome = as.numeric(x$trump_masks)
+  )
+}
+
+lucid_party <- function(code) {
+  code <- as.integer(code)
+  stopifnot(all(is.na(code) | code %in% 1:10))
+  dplyr::case_when(
+    code %in% c(1, 2, 3, 6) ~ "Democrat",
+    code %in% c(5, 8, 9, 10) ~ "Republican",
+    code %in% c(4, 7) ~ "Independent"
   )
 }
