@@ -1,60 +1,42 @@
-## Partisan Vision? Partisan Bias in Simple Visual Evaluations
-
-Do partisans `see' different things? We test the hypothesis using simple evaluation tasks. We manipulate the perceived partisanship of people who have [written a piece of text](data/treats/Mistakes_Dem.png) or [parked the cars](data/treats/Parking_Lot_Dems.png) and ask respondents to estimate the number of errors. 
-
-We find that partisan bias is generally small. In the CCES survey, the average number of mistakes found by Democrats in Democratic texts is 9.7 (.2) vs. 9.9 (.2) in Republican texts. On the flip side, Republicans on average find 8.40 (.3) mistakes in Democratic texts and 8.1 (.3) in Republican texts. Moving to judgments about errors in parking, we find that Democrats on average find 6.1 (.4) misparked cars when they think Democrats parked the cars vs. 8.72 (.6) when they think Republicans parked the cars. The difference here is statistically significant but the sharply smaller difference between the medians suggests that the effect is due to a small number of extreme observations. Moving to Republicans, they find on average 8.4 (.6) misparked cars when they think Democrats parked the cars vs. 8.1 (.7) when they think Republicans parked the cars. 
-
-When we replicated the experiment on finding errors in text on Lucid, we found a similar pattern. Democrats find 5.47 (.61) errors on average when they think Democrats wrote the text vs. 5.91 (.79) when they think Republicans wrote it. On the Republican side, the corresponding numbers are 5.58 (.89) (when they think Democrats wrote the text) vs. 4.86 (.26) (when they think Republicans wrote it).
-
-Lastly, on a survey on Amazon Mturk, we asked respondents to count [how many people are wearing a mask at a Trump rally](data/treats/trump_rally.mp4). Because of some absurd estimates, e.g., 80,000, we winsorized the data. Democrats on average spot 5.4 (.3) masks and Republicans spot 5.9 (.3) masks. The 25th percentile of Democrats' and Republicans' estimates is 2, the 50th percentile for Democrats and Republicans are 4 and 5 respectively, and the 75th percentile are 7 and 8 respectively. 
-
-### Treatments
-
-<img src="data/treats/Parking_Lot_Dems.png" width=50%>
-
-<img src="data/treats/Mistakes_Dem.png" width = 50%>
-
-[Trump Rally](data/treats/trump_rally.mp4)
-
-### Results
-
-**CCES**
-
-<img src="figs/text_cces.png" width=50%>
-
-<img src="figs/parking_cces.png" width=50%>
-
-
-**Lucid**
-
-<img src="figs/text_lucid.png" width=50%>
-
-**MTurk**
-
-Number of people wearing masks by party 
-
-|pid_dem_l   | p_25| p_50| p_75|   n|     mean| std_error|
-|:-----------|----:|----:|----:|---:|--------:|---------:|
-|democrat    |    2|    4|  7.0| 237| 5.4|       0.3|
-|independent |    1|    2|  6.5|  15| 4.9|       1.4|
-|republican  |    2|    5|  8.0| 365| 5.9|       0.3|
-
-### OSF Pre-Reg
-
-https://osf.io/rqj8u
-
-### Authors
+# Partisan Vision? Partisan Bias in Simple Visual Evaluations
 
 Carrie Roush, Gaurav Sood, and Alex Theodoridis
 
-<!-- adjacent:start -->
+[Paper](ms/partisan_vision.pdf) · [Audit](docs/audit.md)
 
-## 🔗 Adjacent Repositories
+Randomized party cues in CCES and Lucid test whether attributed authorship changes reported error counts. MTurk mask counts describe party differences, not causal effects of party identification. Estimates describe the analyzed respondents, not a representative national population.
 
-- [soodoku/partisan_identity](https://github.com/soodoku/partisan_identity)
-- [soodoku/partisan_heads_2015](https://github.com/soodoku/partisan_heads_2015) — Replication Materials for "The Partisans in our Heads" \(Ahler and Sood, 2015\)
-- [soodoku/partisan_principled](https://github.com/soodoku/partisan_principled) — Two survey experiments on partisan affect, fair-minded opponents, and biased allies: research note and reproducible analysis.
+## Results
 
-_Powered by [Adjacent](https://github.com/gojiplus/adjacent)_
+Out-party minus in-party attributed counts:
 
-<!-- adjacent:end -->
+CCES parking, Democrat respondents: 2.63 (95% CI 1.19 to 4.06).
+
+CCES parking, Republican respondents: 0.34 (95% CI -1.53 to 2.21).
+
+CCES writing, Democrat respondents: 0.26 (95% CI -0.39 to 0.92).
+
+CCES writing, Republican respondents: 0.52 (95% CI -0.33 to 1.37).
+
+Lucid writing, Democrat respondents: 0.43 (95% CI -1.52 to 2.39).
+
+Lucid writing, Republican respondents: 0.71 (95% CI -1.13 to 2.56).
+
+MTurk Republican minus Democratic capped mask count: 0.87 (95% CI 0.41 to 1.33).
+
+Intervals do not establish equivalence. MTurk results depend on response capping and sincerity selection. See the paper and sensitivity tables.
+
+## Reproduce
+
+Use R 4.6, a LaTeX distribution, and latexmk:
+
+```
+make restore
+make check
+```
+
+`make ci-docker` uses a standard Rocker image. `R/` contains reusable functions; `scripts/99_run_all.R` runs the pipeline. `data/` retains source files, `data/derived/` contains ignored intermediates, and `tabs/` and `figs/` contain generated results. `renv.lock` pins dependencies. README results and manuscript results are generated together; edit this template rather than the rendered README.
+
+The audit distinguishes confirmed errors from changed estimands and unavailable evidence. Source survey records contain identifying fields; generated analytical outputs exclude them.
+
+The OSF registration is dated November 2021, after CCES fieldwork in 2020; the paper treats it as a registered analysis description. Lucid party-code documentation remains unresolved.

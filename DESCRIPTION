@@ -1,0 +1,13 @@
+Package: partisanvision
+Type: Project
+Title: Partisan Vision
+Version: 0.1.0
+Authors@R: c(person("Carrie", "Roush", role = "aut"),
+    person("Gaurav", "Sood", role = c("aut", "cre"), email = "gsood07@gmail.com"),
+    person("Alex", "Theodoridis", role = "aut"))
+Description: Reproducible analyses of partisan cues and visual evaluations.
+Encoding: UTF-8
+Depends: R (>= 4.6.0)
+Imports: dplyr, ggplot2, haven, readr, tibble, xtable, sandwich
+Suggests: foreign, lintr, renv, styler, testthat, withr
+Config/testthat/edition: 3

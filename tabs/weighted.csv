@@ -1,0 +1,13 @@
+task,party,treatment,n,mean
+Parking,Democrat,Democrat,199,6.006604996933364
+Parking,Democrat,Republican,199,8.93343128573656
+Parking,Independent,Democrat,56,11.294962415114684
+Parking,Independent,Republican,59,7.431162052089579
+Parking,Republican,Democrat,158,8.443746838334087
+Parking,Republican,Republican,150,8.015358899560574
+Writing,Democrat,Democrat,240,8.5956475322755
+Writing,Democrat,Republican,230,8.751059651693907
+Writing,Independent,Democrat,64,8.464291069601215
+Writing,Independent,Republican,77,7.96254237889591
+Writing,Republican,Democrat,181,7.483530706077526
+Writing,Republican,Republican,167,7.075696405530366
