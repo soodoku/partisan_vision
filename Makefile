@@ -14,4 +14,5 @@ test: analysis
 check: paper lint test
 ci-docker:
 	docker run --rm -v "$(CURDIR):/project" -w /project \
-		rocker/verse:4.6.0 bash -c "make restore check"
+		rocker/verse:4.6.0 bash -c \
+		"tlmgr install latexmk collection-latexextra collection-fontsrecommended && make restore check"
