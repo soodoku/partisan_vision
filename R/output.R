@@ -101,6 +101,17 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
     "| Study | Task | Respondents | Difference | 95% CI |",
     "|---|---|---|---:|---|", lines
   ), collapse = "\n")
-  readme <- readLines("docs/readme_template.md")
-  writeLines(sub("RESULTS", results, readme), "readme.md")
+  write_readme(results)
+}
+
+write_readme <- function(results, template = "docs/readme_template.md",
+                         path = "readme.md") {
+  current <- readLines(path)
+  start <- which(current == "<!-- adjacent:start -->")
+  end <- which(current == "<!-- adjacent:end -->")
+  if (length(start) != 1L || length(end) != 1L || start >= end) {
+    stop("README must contain one ordered pair of Adjacent markers")
+  }
+  body <- sub("RESULTS", results, readLines(template))
+  writeLines(c(body, "", current[start:end]), path)
 }
