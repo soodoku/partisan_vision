@@ -13,4 +13,5 @@ test: analysis
 	Rscript --vanilla -e 'renv::load(); testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
 check: paper lint test
 ci-docker:
-	docker run --rm -v "$(CURDIR):/project" -w /project rocker/verse:4.6.0 bash -c 'Rscript -e '''install.packages("renv")''' && make restore check'
+	docker run --rm -v "$(CURDIR):/project" -w /project \
+		rocker/verse:4.6.0 bash -c "make restore check"
