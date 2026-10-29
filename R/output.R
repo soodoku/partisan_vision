@@ -1,7 +1,7 @@
 write_table <- function(x, path, caption, label) {
   print(xtable::xtable(x, digits = 2, caption = caption, label = label),
     file = path, include.rownames = FALSE, comment = FALSE,
-    caption.placement = "top"
+    caption.placement = "top", booktabs = TRUE
   )
   writeLines(trimws(readLines(path), which = "right"), path)
 }
@@ -18,7 +18,10 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
   for (task in tasks) {
     x <- summary[summary$study == task[1] & summary$task == task[2], ]
     write_table(
-      x[c("party", "treatment", "n", "mean", "median", "se")],
+      setNames(
+        x[c("party", "treatment", "n", "mean", "median", "se")],
+        c("Respondents", "Attributed party", "N", "Mean", "Median", "SE")
+      ),
       paste0("tabs/", task[4], ".tex"), paste(task[1], task[2]),
       paste0("tab:", task[5])
     )
@@ -39,39 +42,65 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
     }
   }
   write_table(
-    masks[c("party", "n", "mean", "median", "se")],
+    setNames(
+      masks[c("party", "n", "mean", "median", "se")],
+      c("Respondents", "N", "Mean", "Median", "SE")
+    ),
     "tabs/masks_sum.tex", "Mask counts capped at 15; never or rarely insincere",
     "tab:trump_sum"
   )
+
+  effect_table <- data.frame(
+    Study = effects$study, Task = effects$task,
+    Respondents = effects$party, Difference = effects$estimate,
+    interval = sprintf("[%.2f, %.2f]", effects$lower, effects$upper)
+  )
+  names(effect_table)[5] <- "95% CI"
   write_table(
-    effects[c("study", "task", "party", "estimate", "lower", "upper")],
-    "tabs/effects.tex",
-    "Out-party minus in-party counts; Welch 95\\% intervals",
+    effect_table, "tabs/effects.tex",
+    paste0(
+      "Effect of party cues on error counts. Differences are ",
+      "out-party minus in-party means within respondent party. ",
+      "Intervals are pointwise Welch 95\\% confidence intervals."
+    ),
     "tab:effects"
   )
-  lines <- vapply(seq_len(nrow(effects)), function(i) {
-    x <- effects[i, ]
-    sprintf(
-      "%s %s, %s respondents: %.2f (95%% CI %.2f to %.2f).",
-      x$study, tolower(x$task), x$party, x$estimate, x$lower, x$upper
+  macros <- character()
+  add_macro <- function(name, value, digits = 1) {
+    sprintf("\\newcommand{\\%s}{%.*f}", name, digits, value)
+  }
+  for (i in seq_len(nrow(summary))) {
+    x <- summary[i, ]
+    prefix <- paste0(x$study, x$task, x$party, x$treatment)
+    for (stat in c("mean", "median", "se")) {
+      suffix <- paste0(toupper(substr(stat, 1, 1)), substring(stat, 2))
+      macros <- c(macros, add_macro(paste0(prefix, suffix), x[[stat]]))
+    }
+  }
+  for (i in seq_len(nrow(masks))) {
+    x <- masks[i, ]
+    macros <- c(
+      macros,
+      add_macro(paste0("Masks", x$party, "Mean"), x$mean),
+      add_macro(paste0("Masks", x$party, "Se"), x$se)
     )
-  }, character(1))
-  mask_line <- sprintf(
-    paste0(
-      "MTurk Republican minus Democratic capped mask count: ",
-      "%.2f (95%% CI %.2f to %.2f)."
-    ),
-    mask_effect$estimate, mask_effect$lower, mask_effect$upper
+  }
+  macros <- c(
+    macros,
+    add_macro("MasksDifference", mask_effect$estimate, 2),
+    add_macro("MasksLower", mask_effect$lower, 2),
+    add_macro("MasksUpper", mask_effect$upper, 2)
   )
-  writeLines(c(lines, mask_line), "tabs/results.txt")
-  tex <- gsub("%", "\\%",
-    paste(c(lines, mask_line), collapse = "\n\n"),
-    fixed = TRUE
+  writeLines(macros, "tabs/macros.tex")
+  lines <- sprintf(
+    "| %s | %s | %s | %.2f | [%.2f, %.2f] |",
+    effects$study, effects$task, effects$party,
+    effects$estimate, effects$lower, effects$upper
   )
-  writeLines(tex, "tabs/results.tex")
+  results <- paste(c(
+    "| Study | Task | Respondents | Difference | 95% CI |",
+    "|---|---|---|---:|---|", lines
+  ), collapse = "\n")
   readme <- readLines("docs/readme_template.md")
-  writeLines(
-    sub("RESULTS", paste(c(lines, mask_line), collapse = "\n\n"), readme),
-    "readme.md"
-  )
+  writeLines(sub("RESULTS", results, readme), "readme.md")
 }

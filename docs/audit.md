@@ -45,7 +45,7 @@ Distinct MTurk response IDs do not establish unique people across waves. There a
 | Denominators and units | Observed outcome denominators; counts remain in original units. |
 | Missing versus zero | No replacement of missing outcomes by zero; one missing classified CCES writing response. |
 | Row conservation / joins | No analytical joins; unique study-task-response keys; pooling checks distinct response IDs. |
-| Provenance and consistency | Generated prose, tables, and README share results; obsolete duplicate tables removed. |
+| Provenance and consistency | Generated numerical macros, tables, and README share results; obsolete duplicate tables removed. |
 | EDA and tails | Mechanical sweeps run on both analytical datasets; extreme mask reports and Lucid influence reported. |
 | Construction | SPSS ranks and sincerity corrected; Lucid party mapping confirmed against the provider codebook; see lucid_provenance.md. |
 | Estimands | Unmatched unweighted primary CCES, matched weighted description separately; capped and raw outcomes distinguished. |

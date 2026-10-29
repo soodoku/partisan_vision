@@ -57,50 +57,68 @@ setwd(githubdir)
 
 \end{comment}
 
+\input{../tabs/macros.tex}
+
+\widowpenalty=10000
+\clubpenalty=10000
 \begin{document}
 \maketitle
 \thispagestyle{empty}
 
 \begin{abstract}
-\noindent Do partisan cues change reported counts in simple visual evaluations? Experiments in a CCES module and a Lucid survey compare error counts under Democratic and Republican cues. The clearest difference occurs among Democrats evaluating parking errors. Writing-task estimates are less precise and do not establish equivalence. An observational MTurk task shows party differences in capped mask counts, with substantial sensitivity to extreme responses. These tasks measure reported evaluations rather than visual perception directly.
+
+\noindent In the current era of partisan polarization, partisanship strongly colors partisans' worldviews. But does it cause partisans to \textit{see} different things? We test the hypothesis using two different experiments and a survey. The clearest experimental difference is in Democrats' judgments of parking errors. Differences in writing errors are smaller and less precisely estimated, while Republicans count more masks than Democrats after extreme responses are capped.
 \end{abstract}
+
 \newpage
+
 \doublespacing
 
-Partisan affect can shape political judgments \citep{IyengarSoodLelkes2012}. We examine whether attributing otherwise similar material to different parties changes reported error counts. The experimental contrast concerns party cues; it does not identify whether a response reflects perception, interpretation, effort, or expressive reporting.
+Partisans are increasingly polarized \cite{IyengarSoodLelkes2012} with partisan cleavages outstripping some of the longer-standing racial cleavages \citep{IyengarWestwood2015}. In this paper, we explore whether polarization affects how partisans `see.' We test the hypothesis with simple visual evaluative tasks. In particular, we field two survey experiments and a survey. The clearest experimental difference is in Democrats' judgments of parking errors.
 
-\section{Data and research design}
-The CCES files contain an unmatched sample and a smaller matched sample with team weights. Our primary estimates describe respondents in the unmatched file, retaining the original analysis population. The text task attributes a passage to Democrats or Republicans; the parking task attributes a parking lot to a party meeting. Party identification includes leaners. We retain observed outcomes and report their actual denominators. We use numeric SPSS values, not factor ranks.
 
-Lucid replicates the writing task. We retain consenting, non-preview respondents who pass the recorded attention check. Party coding follows the provider demographic codebook, verified through companion materials using the identical survey archive; leaners include other-party respondents leaning toward a major party. Earlier questions link racial or religious groups to parties and present economic party cues. The writing-task effect is conditional on that preceding survey context. The OSF registration (\url{https://osf.io/rqj8u}) is dated November 2021, after the documented 2020 CCES fieldwork. We treat it as a registered analysis description, not evidence of a prospective preregistration. It specifies uncapped outcomes, both CCES samples, party comparisons, and affective-polarization analyses. Our capping checks are exploratory; the registration does not specify cutpoints for affective polarization.
+Group loyalties can shape how people judge the same scene. In the classic study of a contentious football game, Princeton and Dartmouth students differed in the infractions they attributed to the teams \citep{HastorfCantril1954}. In a political setting, changing the purported cause of a protest changed judgments of whether the same demonstrators were obstructing or threatening pedestrians \citep{KahanEtAl2012}. Related experiments find that motivations influence interpretations of ambiguous visual stimuli \citep{BalcetisDunning2006} and that political agreement affects which photographs people regard as representative of a candidate's skin tone \citep{CarusoEtAl2009}.
 
-The MTurk files pool two survey waves. Respondents watched a short Trump-rally video and counted people wearing masks. The sincerity item asks how often respondents give humorous or insincere answers: never and rarely are codes 1 and 2. We retain those responses and respondents with classified party identification. This corrects an earlier reversed filter. For comparability with the original analysis, the primary descriptive outcome caps counts at 15. This cap is an analytical choice, not a validated count of visible masks. Raw and alternatively capped results accompany the replication materials.
+These findings fit a broader literature on motivated political reasoning. People evaluate congenial arguments more favorably and scrutinize contrary arguments more closely \citep{TaberLodge2006}. Party identification can organize attention, memory, and evaluation around defending one's political group \citep{VanBavelPereira2018}. A meta-analysis of experiments that hold information constant while varying its political implications finds bias among both liberals and conservatives \citep{DittoEtAl2019}.
 
-We report out-party minus in-party mean error counts separately for Democrats and Republicans. Positive values indicate more reported errors under the out-party cue. Welch intervals allow unequal variances; they assume independent responses and are pointwise 95\% intervals. The replication tables also report Holm-adjusted p-values across the six experimental party-by-task contrasts. MTurk party differences are observational, not effects of party identification. Shared IP addresses do not establish repeat participation; a first-record-per-IP sensitivity check is reported in the replication materials.
+But partisan differences in survey answers need not be large or uniform. Accuracy incentives reduce partisan gaps in answers to factual questions \citep{BullockEtAl2015,PriorSoodKhanna2015}, and vague response options can inflate their size \citep{RoushSood2023}. Even a straightforward comparison of inauguration photographs can elicit answers favoring a respondent's preferred candidate \citep{SchaffnerLuks2018}. Our experiments ask whether simply attributing a piece of text or a parking lot to a party changes the number of errors people find. Respondents assess the material in front of them and give a count, rather than recall a political fact or choose among verbal descriptions of it.
+
+\section{Data and Research Design}
+To assess how partisans \textit{see}, we fielded two survey experiments on respondents recruited by YouGov as part of a Cooperative Congressional Election Study (CCES) module. In the first experiment, we presented people with a short passage and asked them to count the number of errors in it. We manipulated the perceived party of the person writing the text (see Figure~\ref{fig:mistakes_dem}). In the second experiment, we showed people a photo of a parking lot and asked them to estimate the number of poorly parked cars. We manipulated which parties' members parked the car by manipulating the caption indicating where the photo was taken (see Figure ~\ref{fig:parking_treat_dem}). We replicated the first experiment on Lucid, an online survey platform \citep{CoppockMcClellan2019}. The Lucid version uses a shorter passage.
+
+We complemented the survey experiments with a partisan evaluative task on a survey. In a survey conducted on MTurk, we asked respondents to watch a short video and estimate how many people in the video were wearing masks. In particular, our directions were as follows: ``Please watch the following short (10-second) video. You will be asked a question about it on the next screen. ...How many people in the video were wearing masks?''
+
+
+We analyze the unmatched CCES sample without survey weights and report results from the matched, weighted sample in the replication materials. The writing task appeared before the election and the parking task afterward. Partisan groups include leaners. For Lucid, we exclude previews and retain respondents who consented and passed the attention check. For MTurk, we pool the two survey waves and retain respondents who said they gave humorous or insincere answers never or rarely. The original instruments, party coding, sample counts, and sensitivity analyses are included in the replication materials.
+
+Table~\ref{tab:effects} reports differences in mean error counts between the out-party and in-party conditions, with Welch 95\% confidence intervals. Figure intervals are also 95\% confidence intervals. We examine uncapped and capped responses, the influence of individual observations, and differences across the two MTurk waves. The CCES analysis description on OSF was registered in November 2021, after the 2020 fieldwork (\url{https://osf.io/rqj8u}).
 
 \section{Results}
-\input{../tabs/results.tex}
 
-\input{../tabs/effects.tex}
+As Table~\ref{tab:error_sum_cces} shows, Democrats find \CCESWritingDemocratDemocratMean{} mistakes when they think the text is written by a Democrat compared to \CCESWritingDemocratRepublicanMean{} mistakes when they think the text is written by a Republican (see also Figure~\ref{fig:text_cces}). On the other hand, Republicans find \CCESWritingRepublicanDemocratMean{} mistakes on average when they think the text is written by a Democrat and \CCESWritingRepublicanRepublicanMean{} mistakes when they think it is written by a Republican. And while the differences are consistent with partisan bias, the differences are small. The point is especially clear when you look at the medians, which are the same within each party. The confidence intervals for the differences include zero, but also leave room for larger effects (Table~\ref{tab:effects}).
+
 \input{../tabs/text_sum_cces.tex}
+
+Table~\ref{tab:error_sum_lucid} presents the results of the replication on Lucid. Democrats find \LucidWritingDemocratDemocratMean{} (\LucidWritingDemocratDemocratSe{}) errors on average when they think Democrats wrote the text vs. \LucidWritingDemocratRepublicanMean{} (\LucidWritingDemocratRepublicanSe{}) when they think Republicans wrote it. On the Republican side, the corresponding numbers are \LucidWritingRepublicanDemocratMean{} (\LucidWritingRepublicanDemocratSe{}) (when they think Democrats wrote the text) vs. \LucidWritingRepublicanRepublicanMean{} (\LucidWritingRepublicanRepublicanSe{}) (when they think Republicans wrote it) (see also Figure~\ref{fig:text_lucid}). Standard errors are in parentheses. These differences are imprecisely estimated (Table~\ref{tab:effects}).
+
 \input{../tabs/text_sum_lucid.tex}
+
+We see a larger partisan bias in the experiment that manipulates which party's members parked the cars. Democrats on average believe there are \CCESParkingDemocratDemocratMean{} poorly parked cars outside the Democratic Party meeting while they think there are \CCESParkingDemocratRepublicanMean{} poorly parked cars in front of the Republican Party meeting (see Table~\ref{tab:parking_sum_cces}; see also Figure~\ref{fig:parking_cces}). As above, the medians are much closer at \CCESParkingDemocratDemocratMedian{} and \CCESParkingDemocratRepublicanMedian{} for the Democratic Party meeting and the Republican Party meeting respectively. The mean difference remains positive when any single respondent is omitted. Switching to Republicans, the gap is much narrower---Republicans on average think that there are \CCESParkingRepublicanDemocratMean{} poorly parked cars in front of the Democratic Party meeting and \CCESParkingRepublicanRepublicanMean{} in front of the Republican Party meeting. The gap in medians is one. The results from Independents make interpretation slightly complicated as Independents show a pronounced pro-Republican bias. One plausible explanation is `hidden Republicans' among Independents.
+
 \input{../tabs/parking_sum_cces.tex}
+
+Turning to the results from the MTurk survey, Republicans count more people wearing masks than Democrats (see Table~\ref{tab:trump_sum}). We winsorized the responses at 15 because of extreme responses. Democrats on average spot \MasksDemocratMean{} (\MasksDemocratSe{}) masks and Republicans spot \MasksRepublicanMean{} (\MasksRepublicanSe{}) masks. The difference is \MasksDifference{} masks, with a 95\% confidence interval from \MasksLower{} to \MasksUpper{}. Republicans also count more masks when responses are capped at 10 or 20. Without a cap, extreme responses dominate the averages and the estimated difference reverses sign. Unlike the text and parking experiments, this comparison does not randomly assign party cues.
+
 \input{../tabs/masks_sum.tex}
-
-The parking contrast among Democrats is the clearest experimental result. Comparing medians alone does not show that a mean difference is caused by a handful of respondents. The accompanying sensitivity tables evaluate common response caps and the influence of deleting individual observations. The replication materials additionally report party-by-cue interactions and continuous affective-polarization moderation, using HC3 standard errors in both the unmatched and matched weighted CCES samples. Affective polarization is the pre-election in-party minus out-party thermometer score. Continuous moderation is an exploratory operationalization because the registration supplies no subgroup cutpoints; weighted-model intervals treat team weights as fixed and do not recover undocumented survey-design uncertainty.
-
-The smaller writing-task point estimates have intervals that include both zero and substantively nonzero differences. Without a prespecified equivalence margin, these findings do not establish that partisan bias is absent or generally small.
-
-Mask-count conclusions depend on the outcome definition. With uncapped responses, extreme values dominate the party means and reverse the estimated direction relative to the capped analysis. The capped outcome describes bounded reports; it does not recover an independently verified number of masks. The paper therefore makes no general claim of equal visual perception across parties.
-
-\section{Interpretation and limitations}
-These surveys measure reported counts under particular prompts. Random assignment of cues supports an interpretation as cue effects within the analyzed experimental samples, subject to outcome observation and the stated sample restrictions. Neither survey representativeness nor a perceptual mechanism follows from random assignment. The matched CCES file and its team-weighted means are reported separately because both sample selection and weighting change the population being summarized.
-
-The replication materials document corrections, sample counts, missingness, sensitivity analyses, and remaining evidence gaps. Unavailable assignment logs, and the retrospective timing of the registration limit verification. Independent respondents are the inferential unit; repeated identities across MTurk waves cannot be ruled out from distinct response IDs alone. No treatment-on-treated effect, mediation mechanism, or national-population effect is identified here.
+\input{../tabs/effects.tex}
 
 \clearpage
-\bibliographystyle{plainnat}
+\begingroup
+\singlespacing
+\bibliographystyle{apsr}
+\renewcommand{\bibsection}{\section*{References}}
 \bibliography{vision}
+\endgroup
 \clearpage
 
 
