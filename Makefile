@@ -1,3 +1,8 @@
+TEX_PACKAGES = latexmk amsfonts amsmath appendix booktabs caption chngcntr \
+	colortbl epstopdf-pkg etoolbox fancyhdr geometry graphics hycolor hyperref \
+	kvoptions kvsetkeys lm multirow natbib preprint refcount rerunfilecheck \
+	sectsty setspace tools url xcolor
+
 .PHONY: restore analysis paper lint format test check ci-docker
 restore:
 	Rscript --vanilla -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org"); renv::load(); renv::restore(prompt = FALSE)'
@@ -15,4 +20,4 @@ check: paper lint test
 ci-docker:
 	docker run --rm -v "$(CURDIR):/project" -w /project \
 		rocker/verse:4.6.0 bash -c \
-		"tlmgr install latexmk collection-latexextra collection-fontsrecommended && make restore check"
+		"tlmgr install $(TEX_PACKAGES) && make restore check"
