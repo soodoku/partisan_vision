@@ -8,12 +8,9 @@ write_table <- function(x, path, caption, label) {
 
 write_outputs <- function(summary, effects, masks, mask_effect) {
   tasks <- list(
-    c("CCES", "Writing", "text_cces", "text_sum_cces", "error_sum_cces"),
-    c(
-      "CCES", "Parking", "parking_cces",
-      "parking_sum_cces", "parking_sum_cces"
-    ),
-    c("Lucid", "Writing", "text_lucid", "text_sum_lucid", "error_sum_lucid")
+    c("CCES", "Writing", "text_sum_cces", "error_sum_cces"),
+    c("CCES", "Parking", "parking_sum_cces", "parking_sum_cces"),
+    c("Lucid", "Writing", "text_sum_lucid", "error_sum_lucid")
   )
   for (task in tasks) {
     x <- summary[summary$study == task[1] & summary$task == task[2], ]
@@ -22,25 +19,17 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
         x[c("party", "treatment", "n", "mean", "median", "se")],
         c("Respondents", "Attributed party", "N", "Mean", "Median", "SE")
       ),
-      paste0("tabs/", task[4], ".tex"), paste(task[1], task[2]),
-      paste0("tab:", task[5])
+      paste0("tabs/", task[3], ".tex"), paste(task[1], task[2]),
+      paste0("tab:", task[4])
     )
-    plot <- ggplot2::ggplot(x, ggplot2::aes(party, mean, color = treatment)) +
-      ggplot2::geom_pointrange(ggplot2::aes(ymin = lower, ymax = upper),
-        position = ggplot2::position_dodge(width = 0.4)
-      ) +
-      ggplot2::labs(
-        x = NULL, y = "Reported count (95% confidence interval)",
-        color = "Attributed party"
-      ) +
-      ggplot2::theme_minimal() +
-      ggplot2::theme(legend.position = "bottom")
-    for (extension in c("pdf", "png")) {
-      ggplot2::ggsave(paste0("figs/", task[3], ".", extension), plot,
-        width = 6.5, height = 4, dpi = 200
-      )
-    }
   }
+  plot <- experiment_figure(summary, effects)
+  for (extension in c("pdf", "png")) {
+    ggplot2::ggsave(paste0("figs/experiments.", extension), plot,
+      width = 6.5, height = 5.8, dpi = 200
+    )
+  }
+
   write_table(
     setNames(
       masks[c("party", "n", "mean", "median", "se")],

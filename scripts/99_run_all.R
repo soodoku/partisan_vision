@@ -1,6 +1,7 @@
 source("R/data.R")
 source("R/analysis.R")
 source("R/output.R")
+source("R/figures.R")
 dir.create("data/derived", showWarnings = FALSE)
 experiments <- dplyr::bind_rows(read_cces(), read_lucid()) |>
   dplyr::filter(
