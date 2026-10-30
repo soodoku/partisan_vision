@@ -10,6 +10,8 @@ Randomized party cues in CCES and Lucid test whether party labels affect how man
 
 Across writing and parking experiments, the pooled effect is 0.12 standard deviations (SE 0.04; 95% CI [0.04, 0.20]), favoring respondents' own party. Inference accounts for repeated CCES respondents across tasks using a respondent bootstrap.
 
+The pooled direction persists with response caps of 10, 15, or 20. Lucid's Republican writing contrast is sensitive to extreme responses: it is near zero or slightly negative under these caps.
+
 Out-party minus in-party differences in reported counts:
 
 | Study | Task | Respondents | Difference | 95% CI |

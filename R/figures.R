@@ -1,26 +1,42 @@
-experiment_figure <- function(means, effects, pooled, pooled_means) {
+experiment_figure <- function(means, effects, pooled, pooled_means, capped) {
   panel_levels <- c(
     "Writing\nCCES", "Writing\nLucid", "Parking\nCCES", "Experiments\nPooled"
   )
   metric_levels <- c(
-    "Scaled mean (SD units)", "Standardized difference\n(Hedges' g)"
+    "Mean (SD units)\nAll responses", "Hedges' g\nAll responses",
+    "Hedges' g\nCounts capped at 20"
   )
-  means <- dplyr::mutate(means, metric = "Scaled mean (SD units)")
+  means <- dplyr::mutate(means, metric = metric_levels[1])
   combined_means <- pooled_means |>
     dplyr::mutate(
       study = "Pooled", task = "Experiments", party = group,
-      metric = "Scaled mean (SD units)"
+      metric = metric_levels[1]
     )
   contrasts <- effects |>
     dplyr::mutate(
-      metric = "Standardized difference\n(Hedges' g)", cue = "Difference"
+      metric = metric_levels[2], cue = "Difference"
     )
   synthesis <- pooled |>
     dplyr::mutate(
       study = "Pooled", task = "Experiments", party = group,
-      metric = "Standardized difference\n(Hedges' g)", cue = "Difference"
+      metric = metric_levels[2], cue = "Difference"
     )
-  plot_data <- dplyr::bind_rows(means, contrasts, synthesis, combined_means) |>
+  capped_effects <- dplyr::bind_rows(
+    capped$estimates,
+    dplyr::mutate(capped$pooled,
+      study = "Pooled", task = "Experiments", party = group
+    )
+  ) |>
+    dplyr::mutate(metric = metric_levels[3], cue = "Difference")
+  bounds <- range(c(
+    contrasts$lower, contrasts$upper, capped_effects$lower, capped_effects$upper
+  ))
+  effect_limits <- expand.grid(
+    estimate = bounds, metric = factor(metric_levels[2:3], metric_levels)
+  )
+  plot_data <- dplyr::bind_rows(
+    means, contrasts, synthesis, combined_means, capped_effects
+  ) |>
     dplyr::mutate(
       panel = factor(paste(task, study, sep = "\n"),
         levels = panel_levels
@@ -33,9 +49,12 @@ experiment_figure <- function(means, effects, pooled, pooled_means) {
       )
     )
   ggplot2::ggplot(plot_data, ggplot2::aes(estimate, party, color = cue)) +
+    ggplot2::geom_blank(
+      data = effect_limits, ggplot2::aes(x = estimate), inherit.aes = FALSE
+    ) +
     ggplot2::geom_vline(
       data = data.frame(metric = factor(
-        "Standardized difference\n(Hedges' g)",
+        metric_levels[2:3],
         levels = metric_levels
       )),
       ggplot2::aes(xintercept = 0), linetype = "dashed", color = "grey55"
