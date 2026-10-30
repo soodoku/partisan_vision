@@ -17,6 +17,7 @@ testthat::test_that("Welch contrast agrees with independent arithmetic", {
   b <- var(y) / length(y)
   df <- (a + b)^2 / (a^2 / (length(x) - 1) + b^2 / (length(y) - 1))
   testthat::expect_equal(result$estimate, mean(x) - mean(y))
+  testthat::expect_equal(result$se, sqrt(a + b))
   testthat::expect_equal(
     result$lower,
     mean(x) - mean(y) - qt(0.975, df) * sqrt(a + b)

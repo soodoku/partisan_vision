@@ -1,0 +1,7 @@
+contrast,CCES_Writing_Democrat,CCES_Parking_Democrat,Lucid_Writing_Democrat,CCES_Writing_Republican,CCES_Parking_Republican,Lucid_Writing_Republican
+CCES_Writing_Democrat,0.006142217593087397,8.479943684293093e-5,0,0,0,0
+CCES_Parking_Democrat,8.479943684293093e-5,0.008939696683410145,0,0,0,0
+Lucid_Writing_Democrat,0,0,0.013466212737029812,0,0,0
+CCES_Writing_Republican,0,0,0,0.007111244008762583,3.6951449208756274e-4,0
+CCES_Parking_Republican,0,0,0,3.6951449208756274e-4,0.012148508847530328,0
+Lucid_Writing_Republican,0,0,0,0,0,0.017318920611720568

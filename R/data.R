@@ -6,6 +6,10 @@ read_cces <- function(weighted = FALSE) {
     tibble::tibble(
       id = as.character(x$caseid), study = "CCES", task = task,
       party = trimws(x$pid3lean),
+      strong = dplyr::case_when(
+        x$pid7 %in% c(1, 7) ~ TRUE,
+        x$pid7 %in% c(2, 3, 5, 6) ~ FALSE
+      ),
       treatment = c("Democrat", "Republican")[as.integer(x[[assignment]])],
       outcome = as.numeric(x[[outcome]]),
       weight = if (weighted) as.numeric(x$teamweight) else 1
@@ -30,6 +34,10 @@ read_lucid <- function() {
   tibble::tibble(
     id = x$ResponseId, study = "Lucid", task = "Writing",
     party = lucid_party(x$political_party),
+    strong = dplyr::case_when(
+      x$political_party %in% c("1", "10") ~ TRUE,
+      x$political_party %in% c("2", "3", "5", "6", "8", "9") ~ FALSE
+    ),
     treatment = dplyr::recode(x$edit_cond, d = "Democrat", r = "Republican"),
     outcome = as.numeric(ifelse(x$edit_cond == "d", x$edit_dems, x$edit_reps)),
     weight = 1

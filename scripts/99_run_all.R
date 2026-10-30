@@ -65,3 +65,7 @@ write_outputs(summary, effects, mask_summary, mask_effect)
 source("scripts/05_diagnostics.R")
 
 source("scripts/06_registered_checks.R")
+
+source("scripts/07_synthesis.R")
+
+source("scripts/08_standardized_synthesis.R")

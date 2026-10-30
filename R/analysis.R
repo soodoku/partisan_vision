@@ -16,7 +16,8 @@ mean_contrast <- function(x, y) {
   y <- y[!is.na(y)]
   fit <- stats::t.test(x, y)
   tibble::tibble(
-    estimate = mean(x) - mean(y), lower = fit$conf.int[1],
+    estimate = mean(x) - mean(y), se = unname(fit$stderr),
+    lower = fit$conf.int[1],
     upper = fit$conf.int[2], p_value = fit$p.value,
     n_out = length(x), n_in = length(y)
   )

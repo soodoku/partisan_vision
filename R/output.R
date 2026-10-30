@@ -23,12 +23,6 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
       paste0("tab:", task[4])
     )
   }
-  plot <- experiment_figure(summary, effects)
-  for (extension in c("pdf", "png")) {
-    ggplot2::ggsave(paste0("figs/experiments.", extension), plot,
-      width = 6.5, height = 5.8, dpi = 200
-    )
-  }
 
   write_table(
     setNames(
@@ -48,8 +42,10 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
   write_table(
     effect_table, "tabs/effects.tex",
     paste0(
-      "Effect of party cues on error counts. Differences are ",
+      "Effect of party cues on reported counts. Differences are ",
       "out-party minus in-party means within respondent party. ",
+      "Writing counts refer to errors in a passage; parking counts refer to ",
+      "poorly parked cars. ",
       "Intervals are pointwise Welch 95\\% confidence intervals."
     ),
     "tab:effects"
@@ -66,31 +62,32 @@ write_outputs <- function(summary, effects, masks, mask_effect) {
       macros <- c(macros, add_macro(paste0(prefix, suffix), x[[stat]]))
     }
   }
+  for (i in seq_len(nrow(effects))) {
+    x <- effects[i, ]
+    prefix <- paste0(x$study, x$task, x$party)
+    macros <- c(
+      macros,
+      add_macro(paste0(prefix, "Difference"), x$estimate, 2),
+      add_macro(paste0(prefix, "DifferenceSe"), x$se, 2)
+    )
+  }
   for (i in seq_len(nrow(masks))) {
     x <- masks[i, ]
     macros <- c(
       macros,
       add_macro(paste0("Masks", x$party, "Mean"), x$mean),
-      add_macro(paste0("Masks", x$party, "Se"), x$se)
+      add_macro(paste0("Masks", x$party, "Se"), x$se),
+      add_macro(paste0("Masks", x$party, "Median"), x$median)
     )
   }
   macros <- c(
     macros,
     add_macro("MasksDifference", mask_effect$estimate, 2),
+    add_macro("MasksDifferenceSe", mask_effect$se, 2),
     add_macro("MasksLower", mask_effect$lower, 2),
     add_macro("MasksUpper", mask_effect$upper, 2)
   )
   writeLines(macros, "tabs/macros.tex")
-  lines <- sprintf(
-    "| %s | %s | %s | %.2f | [%.2f, %.2f] |",
-    effects$study, effects$task, effects$party,
-    effects$estimate, effects$lower, effects$upper
-  )
-  results <- paste(c(
-    "| Study | Task | Respondents | Difference | 95% CI |",
-    "|---|---|---|---:|---|", lines
-  ), collapse = "\n")
-  write_readme(results)
 }
 
 write_readme <- function(results, template = "docs/readme_template.md",

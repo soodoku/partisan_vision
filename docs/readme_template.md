@@ -4,11 +4,9 @@ Carrie Roush, Gaurav Sood, and Alex Theodoridis
 
 [Paper](ms/partisan_vision.pdf)
 
-Randomized party cues in CCES and Lucid test whether party labels change counts of writing errors and poorly parked cars. MTurk mask counts describe party differences, not causal effects of party identification. Estimates describe the analyzed respondents, not a representative national population.
+Randomized party cues in CCES and Lucid test whether party labels affect how many errors respondents find in a passage or how many cars they judge to be poorly parked. MTurk mask counts describe party differences, not causal effects of party identification. Estimates describe the analyzed respondents, not a representative national population.
 
 ## Results
-
-Out-party minus in-party attributed counts:
 
 RESULTS
 
