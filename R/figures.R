@@ -1,22 +1,26 @@
-experiment_figure <- function(summary, effects, pooled) {
+experiment_figure <- function(means, effects, pooled, pooled_means) {
   panel_levels <- c(
     "Writing\nCCES", "Writing\nLucid", "Parking\nCCES", "Experiments\nPooled"
   )
-  metric_levels <- c("Mean reported count", "Difference (SD units)")
-  means <- summary |>
-    dplyr::filter(party %in% c("Democrat", "Republican")) |>
+  metric_levels <- c(
+    "Scaled mean (SD units)", "Standardized difference\n(Hedges' g)"
+  )
+  means <- dplyr::mutate(means, metric = "Scaled mean (SD units)")
+  combined_means <- pooled_means |>
     dplyr::mutate(
-      metric = "Mean reported count", estimate = mean,
-      cue = ifelse(party == treatment, "In-party cue", "Out-party cue")
+      study = "Pooled", task = "Experiments", party = group,
+      metric = "Scaled mean (SD units)"
     )
   contrasts <- effects |>
-    dplyr::mutate(metric = "Difference (SD units)", cue = "Difference")
+    dplyr::mutate(
+      metric = "Standardized difference\n(Hedges' g)", cue = "Difference"
+    )
   synthesis <- pooled |>
     dplyr::mutate(
       study = "Pooled", task = "Experiments", party = group,
-      metric = "Difference (SD units)", cue = "Difference"
+      metric = "Standardized difference\n(Hedges' g)", cue = "Difference"
     )
-  plot_data <- dplyr::bind_rows(means, contrasts, synthesis) |>
+  plot_data <- dplyr::bind_rows(means, contrasts, synthesis, combined_means) |>
     dplyr::mutate(
       panel = factor(paste(task, study, sep = "\n"),
         levels = panel_levels
@@ -31,7 +35,7 @@ experiment_figure <- function(summary, effects, pooled) {
   ggplot2::ggplot(plot_data, ggplot2::aes(estimate, party, color = cue)) +
     ggplot2::geom_vline(
       data = data.frame(metric = factor(
-        "Difference (SD units)",
+        "Standardized difference\n(Hedges' g)",
         levels = metric_levels
       )),
       ggplot2::aes(xintercept = 0), linetype = "dashed", color = "grey55"
@@ -40,20 +44,6 @@ experiment_figure <- function(summary, effects, pooled) {
       ggplot2::aes(xmin = lower, xmax = upper),
       orientation = "y",
       position = ggplot2::position_dodge(width = 0.45), linewidth = 0.5
-    ) +
-    ggplot2::geom_label(
-      data = data.frame(
-        panel = factor("Experiments\nPooled", levels = panel_levels),
-        metric = factor("Mean reported count", levels = metric_levels),
-        party = "Republican", estimate = 7,
-        label = paste(
-          "Writing + parking", "Precision-weighted synthesis",
-          "of six experimental contrasts",
-          sep = "\n"
-        )
-      ),
-      ggplot2::aes(estimate, party, label = label), inherit.aes = FALSE,
-      size = 3, linewidth = 0, color = "grey25", fill = "white"
     ) +
     ggplot2::facet_grid(
       rows = ggplot2::vars(panel), cols = ggplot2::vars(metric),

@@ -15,6 +15,6 @@ The manuscript cites fourteen relevant works. DOI metadata were retrieved throug
 | Bullock et al. (2015); Prior, Sood, and Khanna (2015) | Accuracy incentives and partisan factual responses | Author-hosted Bullock article, Princeton's Prior article record and abstract, and DOI metadata. |
 | Roush and Sood (2023) | Size and frequency of partisan knowledge gaps; vague response options | Publisher-deposited abstract and metadata. |
 | Schaffner and Luks (2018) | Expressive responding in inauguration photograph comparisons | Oxford Academic article abstract and metadata. |
-| Coppock and McClellan (2019) | Lucid as a source of survey respondents | Publisher-deposited abstract and metadata. No representativeness claim is inferred for our sample. |
+| Coppock and McClellan (2019) | Validation of a Lucid convenience sample against demographic benchmarks and established experiments | Author-hosted full text, pp. 1–6 and abstract. The comparison supports closer demographic alignment than the MTurk benchmark and replication of several effects; it does not establish representativeness of our sample. |
 
 The bibliography is focused on sources used in the manuscript rather than carrying the previous unrelated bibliography collection. Previous entries remain in Git history. The literature does not substitute for the study's own estimates, and no citation is used to turn a null result into evidence of equivalence.

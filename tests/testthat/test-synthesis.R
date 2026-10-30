@@ -56,4 +56,21 @@ testthat::test_that("respondent bootstrap retains dependence across tasks", {
   expected <- sum(weights * result$estimates$estimate) / sum(weights)
   testthat::expect_equal(result$pooled$estimate[1], expected)
   testthat::expect_equal(result$pooled$se[1], sqrt(1 / sum(weights)))
+  for (group in result$pooled$group) {
+    means <- result$pooled_means[result$pooled_means$group == group, ]
+    gap <- means$estimate[means$cue == "Out-party cue"] -
+      means$estimate[means$cue == "In-party cue"]
+    testthat::expect_equal(
+      gap, result$pooled$estimate[result$pooled$group == group]
+    )
+    testthat::expect_true(all(means$se > 0))
+  }
+  for (key in result$estimates$key) {
+    means <- result$means[result$means$key == key, ]
+    gap <- means$estimate[means$cue == "Out-party cue"] -
+      means$estimate[means$cue == "In-party cue"]
+    testthat::expect_equal(
+      gap, result$estimates$estimate[result$estimates$key == key]
+    )
+  }
 })

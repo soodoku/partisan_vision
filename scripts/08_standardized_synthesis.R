@@ -1,6 +1,8 @@
 standardized <- standardized_synthesis(experiments)
 readr::write_csv(standardized$estimates, "tabs/standardized_effects.csv")
 readr::write_csv(standardized$pooled, "tabs/pooled_experiments.csv")
+readr::write_csv(standardized$means, "tabs/standardized_means.csv")
+readr::write_csv(standardized$pooled_means, "tabs/pooled_means.csv")
 readr::write_csv(
   tibble::rownames_to_column(
     as.data.frame(standardized$covariance), "contrast"
@@ -57,7 +59,10 @@ macros <- c(macros, sprintf(
 ))
 writeLines(macros, "tabs/synthesis_macros.tex")
 
-plot <- experiment_figure(summary, standardized$estimates, standardized$pooled)
+plot <- experiment_figure(
+  standardized$means, standardized$estimates, standardized$pooled,
+  standardized$pooled_means
+)
 mask_plot <- mask_sensitivity |>
   dplyr::filter(sample == "sincere", is.finite(cap)) |>
   ggplot2::ggplot(ggplot2::aes(estimate, factor(cap))) +
@@ -66,9 +71,10 @@ mask_plot <- mask_sensitivity |>
     ggplot2::aes(xmin = lower, xmax = upper),
     orientation = "y"
   ) +
+  ggplot2::scale_y_discrete(labels = function(x) paste("Counts capped at", x)) +
   ggplot2::labs(
-    x = "Republican minus Democratic count of people wearing masks",
-    y = "Response cap"
+    x = "Difference in mask count (Republicans minus Democrats)", y = NULL,
+    subtitle = "Same respondents; counts above each cap are set to that cap"
   ) +
   ggplot2::theme_minimal(base_size = 11) +
   ggplot2::theme(panel.grid.minor = ggplot2::element_blank())

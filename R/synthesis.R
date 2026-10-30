@@ -68,6 +68,23 @@ standardized_synthesis <- function(data, draws = 5000L, seed = 20261029L) {
   strata <- split(data, interaction(data$study, data$party, drop = TRUE))
   estimates <- list()
   bootstrap <- list()
+  bootstrap_in <- list()
+  bootstrap_out <- list()
+  scale_means <- function(out, own, prefix = "") {
+    n_out <- out[[paste0(prefix, "n")]]
+    n_in <- own[[paste0(prefix, "n")]]
+    df <- n_out + n_in - 2
+    sum_squares <- (n_out - 1) * out[[paste0(prefix, "sd")]]^2 +
+      (n_in - 1) * own[[paste0(prefix, "sd")]]^2
+    sd <- sqrt(sum_squares / df)
+    log_correction <- lgamma(df / 2) - log(df / 2) / 2 -
+      lgamma((df - 1) / 2)
+    correction <- exp(log_correction)
+    list(
+      own = correction * own[[paste0(prefix, "mean")]] / sd,
+      out = correction * out[[paste0(prefix, "mean")]] / sd
+    )
+  }
   for (stratum in strata) {
     ids <- unique(stratum$id)
     counts <- stats::rmultinom(
@@ -101,13 +118,19 @@ standardized_synthesis <- function(data, draws = 5000L, seed = 20261029L) {
         sd1i = out$sd, sd2i = own$sd, n1i = out$n, n2i = own$n
       )$yi
       stopifnot(all(is.finite(draws_g)))
+      scaled <- scale_means(out, own, "original_")
+      scaled_draws <- scale_means(out, own)
+      stopifnot(max(abs(scaled_draws$out - scaled_draws$own - draws_g)) < 1e-10)
       key <- paste(x$study[1], task, x$party[1], sep = "_")
       estimates[[key]] <- tibble::tibble(
         key = key, study = x$study[1], task = task, party = x$party[1],
         estimate = as.numeric(original$yi),
+        in_mean = scaled$own, out_mean = scaled$out,
         n_out = out$original_n, n_in = own$original_n
       )
       bootstrap[[key]] <- draws_g
+      bootstrap_in[[key]] <- scaled_draws$own
+      bootstrap_out[[key]] <- scaled_draws$out
     }
   }
   estimates <- dplyr::bind_rows(estimates)
@@ -116,10 +139,33 @@ standardized_synthesis <- function(data, draws = 5000L, seed = 20261029L) {
   independent <- outer(estimates$study, estimates$study, "!=") |
     outer(estimates$party, estimates$party, "!=")
   covariance[independent] <- 0
+  arm_draws <- list(
+    "In-party cue" = do.call(cbind, bootstrap_in),
+    "Out-party cue" = do.call(cbind, bootstrap_out)
+  )
+  arm_covariances <- lapply(arm_draws, function(draws) {
+    v <- stats::cov(draws)
+    v[independent] <- 0
+    v
+  })
+  arm_means <- list(
+    "In-party cue" = estimates$in_mean, "Out-party cue" = estimates$out_mean
+  )
+  means <- dplyr::bind_rows(lapply(names(arm_means), function(cue) {
+    se <- sqrt(diag(arm_covariances[[cue]]))
+    values <- arm_means[[cue]]
+    intervals <- apply(arm_draws[[cue]], 2, stats::quantile, c(0.025, 0.975))
+    estimates |>
+      dplyr::select(key, study, task, party) |>
+      dplyr::mutate(
+        cue = cue, estimate = values, se = se,
+        lower = intervals[1, ], upper = intervals[2, ]
+      )
+  }))
   estimates$se <- sqrt(diag(covariance))
   estimates$lower <- estimates$estimate - stats::qnorm(0.975) * estimates$se
   estimates$upper <- estimates$estimate + stats::qnorm(0.975) * estimates$se
-  pooled <- dplyr::bind_rows(lapply(
+  pooled_groups <- lapply(
     c("All partisans", "Democrat", "Republican"), function(group) {
       use <- if (group == "All partisans") {
         rep(TRUE, nrow(estimates))
@@ -130,14 +176,35 @@ standardized_synthesis <- function(data, draws = 5000L, seed = 20261029L) {
       fit <- metafor::rma.mv(estimates$estimate[use], V = v)
       weights <- drop(solve(v, rep(1, sum(use))))
       weights <- weights / sum(weights)
-      tibble::tibble(
+      group_means <- dplyr::bind_rows(lapply(
+        names(arm_means), function(cue) {
+          estimate <- sum(weights * arm_means[[cue]][use])
+          v_arm <- arm_covariances[[cue]][use, use, drop = FALSE]
+          se <- sqrt(drop(t(weights) %*% v_arm %*% weights))
+          interval <- stats::quantile(
+            drop(arm_draws[[cue]][, use, drop = FALSE] %*% weights),
+            c(0.025, 0.975)
+          )
+          tibble::tibble(
+            group = group, cue = cue, estimate = estimate, se = se,
+            lower = unname(interval[1]), upper = unname(interval[2])
+          )
+        }
+      ))
+      group_effect <- tibble::tibble(
         group = group, estimate = as.numeric(fit$b), se = fit$se,
         lower = fit$ci.lb, upper = fit$ci.ub,
         k = sum(use),
         cces_weight = sum(weights[estimates$study[use] == "CCES"]),
         q = fit$QE, q_p = fit$QEp, draws = draws, seed = seed
       )
+      list(effect = group_effect, means = group_means)
     }
-  ))
-  list(estimates = estimates, covariance = covariance, pooled = pooled)
+  )
+  pooled <- dplyr::bind_rows(lapply(pooled_groups, `[[`, "effect"))
+  pooled_means <- dplyr::bind_rows(lapply(pooled_groups, `[[`, "means"))
+  list(
+    estimates = estimates, covariance = covariance, pooled = pooled,
+    means = means, pooled_means = pooled_means
+  )
 }
